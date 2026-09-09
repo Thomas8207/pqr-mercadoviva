@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from Errores.errores import DatosInvalidos400, EstadoInvalido400, TipoPQRInvalido400
 
 class Aplicativo:
 
@@ -13,23 +13,48 @@ class Administrador(Aplicativo):
     def __init__(self, id):
         super().__init__(id)
 
-    def consultar_PQRS(self):
-        print("Consultando los PQRS..")
+    def consultar_PQRS(self, id_pqr):
+        if not id_pqr:
+            raise DatosInvalidos400()
 
-    def supervisar_gestion(self):
-        print("Gestionando PQR")
+        print("Consultando PQR...")
 
-    def responder_cliente(self):
-        print("Respondiendo al cliente...")
+    def supervisar_gestion(self, estado):
+        estados = ["Pendiente", "En proceso", "Resuelta"]
+
+        if estado not in estados:
+            raise EstadoInvalido400()
+
+        print("Supervisando gestión de PQR")
+
+    def responder_cliente(self, respuesta):
+        if not respuesta:
+            raise DatosInvalidos400()
+
+        print("Respondiendo al cliente")
 
 
 class Cliente(Aplicativo):
 
-    def __init__(self, id):
+    def __init__(self, id, telefono: str, direccion: str):
         super().__init__(id)
 
-    def registar_PQR(self):
-        print("Registrando PQRS..")
+        if not telefono or not direccion:
+            raise DatosInvalidos400()
 
-    def consultar_estados(self):
-        print("Consultando Estados del PQR...")
+        self.telefono: str = telefono
+        self.direccion: str = direccion
+
+    def registar_PQRS(self, tipo):
+        tipos = ["Petición", "Queja", "Reclamo", "Sugerencia"]
+
+        if tipo not in tipos:
+            raise TipoPQRInvalido400()
+
+        print("PQR registrada correctamente")
+
+    def consultar_PQR(self, id_pqr):
+        if not id_pqr:
+            raise DatosInvalidos400()
+
+        print("Consultando estado de la PQR")
