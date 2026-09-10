@@ -180,6 +180,7 @@ La cuenta debe cerrar sesión y volver a iniciar sesión para que el cambio se r
 ```
 
 ## COLABORADORES
--Chocolatico14
--Thomas8207
--CODEX1235
+
+- Chocolatico14 (Andres Felipe Zora)
+- Thomas8207
+- CODEX1235 (Nicolas Peña)
