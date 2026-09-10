@@ -1,0 +1,372 @@
+body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background: #FF5757;
+            color: white;
+            padding: 5px;
+           
+        }
+        main {
+            background: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        nav { 
+             text-align: center-left;
+             margin: 0;
+             padding: 0;
+             background: #FF5757;
+             color: white;
+             padding: 5px;
+             border-radius: 5px;
+        }
+            nav ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                background-color: #333;
+                
+            }
+                nav ul li {
+                    float: left;
+                    
+                }
+
+
+                    nav ul li a {
+                        display: block;
+                        color: white;
+                        text-align: center;
+                        padding: 14px 16px;
+                        text-decoration: none;
+                    }
+                    nav ul li a:hover {
+                        background-color: #111;
+                    }
+                       
+
+
+.registro-inicio nav {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; 
+    margin: 0;
+    padding: 5px;
+    background: #FF5757;
+    color: white;
+    border-radius: 5px;
+}
+
+.registro-inicio nav ul {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: #333;
+}
+
+.registro-inicio nav ul li {
+    margin: 0;
+}
+
+.registro-inicio nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.registro-inicio nav ul li a:hover {
+    background-color: #111;
+}
+
+/* ============================================================
+   Estilos añadidos: formularios, modal y panel de administración
+   (mismo esquema de color del sitio: #FF5757 / #333 / #111)
+   ============================================================ */
+
+html {
+    scroll-behavior: smooth;
+}
+
+.oculto {
+    display: none !important;
+}
+
+#vista-invitado, #vista-cliente, #vista-admin {
+    max-width: 700px;
+    margin: 0 auto 30px auto;
+}
+
+#vista-admin {
+    max-width: 100%;
+}
+
+#inicio, #productos, #contacto, #soporte {
+    margin-bottom: 40px;
+    scroll-margin-top: 15px;
+}
+
+/* ---------- Inicio (hero) ---------- */
+.hero {
+    text-align: center;
+    background: linear-gradient(135deg, #FF5757, #ff8a8a);
+    color: white;
+    padding: 40px 20px;
+    border-radius: 5px;
+}
+
+.hero h2 {
+    color: white;
+    border-bottom: none;
+    margin-top: 0;
+}
+
+/* ---------- Productos (slider) ---------- */
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.slider {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px 4px;
+    flex: 1;
+}
+
+.producto-card {
+    flex: 0 0 200px;
+    scroll-snap-align: start;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    padding: 20px 15px;
+    text-align: center;
+}
+
+.producto-icono {
+    margin-bottom: 10px;
+}
+
+.producto-icono svg {
+    width: 64px;
+    height: 64px;
+}
+
+.producto-icono img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.producto-card h3 {
+    margin: 8px 0;
+    color: #333;
+}
+
+.producto-card p {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.slider-flecha {
+    flex-shrink: 0;
+    background-color: #FF5757;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.slider-flecha:hover {
+    background-color: #111;
+}
+
+/* ---------- Contacto ---------- */
+.contacto-lista {
+    list-style: none;
+    padding: 0;
+}
+
+.contacto-lista li {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+}
+
+h2 {
+    color: #FF5757;
+    border-bottom: 2px solid #FF5757;
+    padding-bottom: 6px;
+}
+
+.campo {
+    margin-bottom: 14px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.campo label {
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    outline: none;
+    border-color: #FF5757;
+}
+
+.error {
+    color: #d8000c;
+    font-size: 0.85rem;
+    margin-top: 4px;
+    min-height: 1em;
+}
+
+button, .modal button {
+    background-color: #FF5757;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #111;
+}
+
+.mensaje {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.mensaje:empty {
+    padding: 0;
+    margin-top: 0;
+}
+
+.mensaje-exito {
+    background-color: #e6ffed;
+    color: #1a7f37;
+    border: 1px solid #1a7f37;
+}
+
+.mensaje-error {
+    background-color: #ffecec;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+}
+
+hr {
+    margin: 30px 0;
+    border: none;
+    border-top: 1px solid #eee;
+}
+
+/* ---------- Modal (login / registro) ---------- */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-contenido {
+    background: white;
+    padding: 25px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+}
+
+.cerrar-modal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: #333;
+}
+
+.cerrar-modal:hover {
+    color: #FF5757;
+}
+
+/* ---------- Panel de administración ---------- */
+#tabla-pqr {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+#tabla-pqr th, #tabla-pqr td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+#tabla-pqr th {
+    background-color: #FF5757;
+    color: white;
+}
+
+#tabla-pqr tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+#tabla-pqr td select {
+    margin-right: 6px;
+}
+
+#btn-refrescar {
+    margin-bottom: 10px;
+}
+
+#li-usuario a {
+    cursor: default;
+}
+
+#li-usuario a:hover {
+    background-color: transparent;
+}

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Página Web</title>
+    <link rel="stylesheet" href="hola.css">
+
+</head>
+<body>
+
+    <header>
+        <h1>Mercado Viva </h1>
+
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#productos">Productos</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#soporte">Soporte / PQR</a></li>
+            </ul>
+
+            <ul class="registro-inicio">
+                <li id="li-registro"><a href="#" id="nav-registro">Registro</a></li>
+                <li id="li-login"><a href="#" id="nav-login">Inicio De Sesion</a></li>
+                <li id="li-usuario" class="oculto"><a href="#" id="nav-usuario"></a></li>
+                <li id="li-logout" class="oculto"><a href="#" id="nav-logout">Cerrar sesión</a></li>
+            </ul>
+        </nav>
+
+    </header>
+
+    <main>
+
+        <!-- ===================== INICIO ===================== -->
+        <section id="inicio" class="hero">
+            <h2>Bienvenido a Mercado VIVA</h2>
+            <p>Tu supermercado de confianza: frescura, variedad y buen precio, en tienda física y en línea.</p>
+        </section>
+
+        <!-- ===================== PRODUCTOS ===================== -->
+        <section id="productos">
+            <h2>Nuestros productos</h2>
+            <div class="slider-wrapper">
+                <button class="slider-flecha" id="slider-prev" aria-label="Anterior">&#10094;</button>
+                <div class="slider" id="slider-productos">
+                    <div class="producto-card">
+                        <div class="producto-icono">
+                            <img src="img/frutas-verduras.webp" alt="Frutas y Verduras">
+                        </div>
+                        <h3>Frutas y Verduras</h3>
+                        <p>Productos frescos seleccionados cada día.</p>
+                    </div>
+                    <div class="producto-card">
+                        <div class="producto-icono">
+                            <img src="img/lacteos-huevos.webp" alt="Lácteos y Huevos">
+                        </div>
+                        <h3>Lácteos y Huevos</h3>
+                        <p>Leche, quesos, yogures y huevos frescos.</p>
+                    </div>
+                    <div class="producto-card">
+                        <div class="producto-icono">
+                            <img src="img/panaderia.webp" alt="Panadería">
+                        </div>
+                        <h3>Panadería</h3>
+                        <p>Pan y repostería horneados a diario.</p>
+                    </div>
+                    <div class="producto-card">
+                        <div class="producto-icono">
+                            <img src="img/carnes-pescados.jpg" alt="Carnes y Pescados">
+                        </div>
+                        <h3>Carnes y Pescados</h3>
+                        <p>Cortes frescos y productos del mar.</p>
+                    </div>
+                    <div class="producto-card">
+                        <div class="producto-icono">
+                            <img src="img/bebidas.jpg" alt="Bebidas">
+                        </div>
+                        <h3>Bebidas</h3>
+                        <p>Jugos, gaseosas, agua y mucho más.</p>
+                    </div>
+                    <div class="producto-card">
+                        <div class="producto-icono">
+                            <img src="img/aseo-hogar.webp" alt="Aseo y Hogar">
+                        </div>
+                        <h3>Aseo y Hogar</h3>
+                        <p>Todo para el cuidado de tu casa.</p>
+                    </div>
+                </div>
+                <button class="slider-flecha" id="slider-next" aria-label="Siguiente">&#10095;</button>
+            </div>
+        </section>
+
+        <!-- ===================== CONTACTO ===================== -->
+        <section id="contacto">
+            <h2>Contacto</h2>
+            <ul class="contacto-lista">
+                <li><strong>Dirección:</strong> Cra. 10 # 20-30, Medellín, Colombia</li>
+                <li><strong>Teléfono:</strong> (604) 123 4567</li>
+                <li><strong>Correo:</strong> contacto@mercadoviva.com</li>
+                <li><strong>Horario:</strong> Lunes a domingo, 7:00 a.m. – 9:00 p.m.</li>
+            </ul>
+        </section>
+
+        <!-- ===================== SOPORTE / PQR ===================== -->
+        <section id="soporte">
+            <h2>Soporte / PQR</h2>
+
+            <!-- Se muestra solo si no hay sesión iniciada -->
+            <div id="vista-invitado">
+                <p>Inicia sesión o regístrate para radicar una Petición, Queja o Reclamo (PQR) y hacerle seguimiento.</p>
+            </div>
+
+            <!-- ===================== VISTA CLIENTE ===================== -->
+            <div id="vista-cliente" class="oculto">
+
+            <h2>Registrar una PQR</h2>
+            <form id="form-pqr" novalidate>
+                <div class="campo">
+                    <label for="pqr-nombre">Nombre</label>
+                    <input type="text" id="pqr-nombre" name="nombre" placeholder="Tu nombre completo">
+                    <span class="error" id="error-nombre"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="pqr-contacto">Correo o teléfono de contacto</label>
+                    <input type="text" id="pqr-contacto" name="contacto" placeholder="correo@ejemplo.com o teléfono">
+                    <span class="error" id="error-contacto"></span>
+                </div>
+
+                <div class="campo">
+                    <label for="pqr-tipo">Tipo de solicitud</label>
+                    <select id="pqr-tipo" name="tipo">
+                        <option value="peticion">Petición</option>
+                        <option value="queja">Queja</option>
+                        <option value="reclamo">Reclamo</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="pqr-descripcion">Descripción</label>
+                    <textarea id="pqr-descripcion" name="descripcion" rows="4" placeholder="Describe tu solicitud con detalle (mínimo 10 caracteres)"></textarea>
+                    <span class="error" id="error-descripcion"></span>
+                </div>
+
+                <button type="submit">Enviar PQR</button>
+            </form>
+            <div id="mensaje-pqr" class="mensaje"></div>
+
+            <hr>
+
+            <h2>Consultar el estado de mi PQR</h2>
+            <form id="form-consulta" novalidate>
+                <div class="campo">
+                    <label for="consulta-id">Identificador de la PQR</label>
+                    <input type="text" id="consulta-id" name="id" placeholder="Ej. 3f9a1b2c">
+                    <span class="error" id="error-consulta"></span>
+                </div>
+                <button type="submit">Consultar</button>
+            </form>
+            <div id="resultado-consulta" class="mensaje"></div>
+
+            </div>
+
+            <!-- ===================== VISTA ADMIN ===================== -->
+            <div id="vista-admin" class="oculto">
+                <h2>Panel de administración — PQR</h2>
+                <button id="btn-refrescar">Actualizar listado</button>
+                <div id="admin-mensaje" class="mensaje"></div>
+
+                <table id="tabla-pqr">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Contacto</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Estado</th>
+                            <th>Fecha creación</th>
+                            <th>Actualizar estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-pqr-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================== MODAL LOGIN ===================== -->
+        <div id="modal-login" class="modal oculto">
+            <div class="modal-contenido">
+                <span class="cerrar-modal" data-modal="modal-login">&times;</span>
+                <h2>Iniciar sesión</h2>
+                <form id="form-login" novalidate>
+                    <div class="campo">
+                        <label for="login-email">Correo</label>
+                        <input type="email" id="login-email" name="email" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="campo">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" name="password" placeholder="Contraseña">
+                    </div>
+                    <button type="submit">Entrar</button>
+                    <div id="mensaje-login" class="mensaje"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- ===================== MODAL REGISTRO ===================== -->
+        <div id="modal-registro" class="modal oculto">
+            <div class="modal-contenido">
+                <span class="cerrar-modal" data-modal="modal-registro">&times;</span>
+                <h2>Crear cuenta</h2>
+                <form id="form-registro" novalidate>
+                    <div class="campo">
+                        <label for="registro-email">Correo</label>
+                        <input type="email" id="registro-email" name="email" placeholder="correo@ejemplo.com">
+                    </div>
+                    <div class="campo">
+                        <label for="registro-password">Contraseña</label>
+                        <input type="password" id="registro-password" name="password" placeholder="Mínimo 6 caracteres">
+                    </div>
+                    <button type="submit">Registrarme</button>
+                    <div id="mensaje-registro" class="mensaje"></div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+
+</body>
+
+</html>
