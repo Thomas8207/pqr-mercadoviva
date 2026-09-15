@@ -131,31 +131,72 @@ html {
     margin-top: 0;
 }
 
-/* ---------- Productos (slider) ---------- */
+/* ============================================================
+   PRODUCTOS - SLIDER
+   ============================================================ */
+
 .slider-wrapper {
+    position: relative;
     display: flex;
     align-items: center;
-    gap: 10px;
+    width: 100%;
+    padding: 10px 50px;
+    box-sizing: border-box;
 }
 
+/* Área donde se mueven las tarjetas */
 .slider {
     display: flex;
-    gap: 16px;
+    gap: 20px;
+    width: 100%;
     overflow-x: auto;
+    scroll-behavior: smooth;
     scroll-snap-type: x mandatory;
-    padding: 10px 4px;
-    flex: 1;
+    padding: 10px 5px 20px;
+    
+    /* Ocultar barra de desplazamiento */
+    scrollbar-width: none;
 }
 
-.producto-card {
-    flex: 0 0 200px;
-    scroll-snap-align: start;
-    background: #f9f9f9;
-    border: 1px solid #eee;
-    border-radius: 5px;
-    padding: 20px 15px;
-    text-align: center;
+.slider::-webkit-scrollbar {
+    display: none;
 }
+
+/* ============================================================
+   TARJETAS
+   ============================================================ */
+
+.producto-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    min-width: 0;
+    
+    scroll-snap-align: start;
+
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+
+    padding: 15px;
+
+    text-align: center;
+
+    box-sizing: border-box;
+
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Efecto al pasar el mouse */
+.producto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================
+   IMÁGENES
+   ============================================================ */
 
 .producto-icono {
     margin-bottom: 10px;
@@ -168,38 +209,126 @@ html {
 
 .producto-icono img {
     width: 100%;
-    height: 130px;
+    height: 160px;
+
     object-fit: cover;
-    border-radius: 4px;
+
+    border-radius: 8px;
+
     display: block;
 }
 
+/* ============================================================
+   TEXTO
+   ============================================================ */
+
 .producto-card h3 {
-    margin: 8px 0;
+    margin: 12px 0 8px;
+
     color: #333;
+
+    font-size: 1.25rem;
 }
 
 .producto-card p {
-    font-size: 0.9rem;
+    margin: 0;
+
+    font-size: 0.95rem;
+    line-height: 1.4;
+
     color: #666;
 }
 
+/* ============================================================
+   FLECHAS
+   ============================================================ */
+
 .slider-flecha {
+    position: absolute;
+
+    top: 50%;
+    transform: translateY(-50%);
+
+    z-index: 10;
+
     flex-shrink: 0;
+
+    width: 45px;
+    height: 45px;
+
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     background-color: #FF5757;
+
     color: white;
+
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 1rem;
+
+    font-size: 28px;
+    line-height: 1;
+
     cursor: pointer;
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+
+    transition: background-color 0.2s ease,
+                transform 0.2s ease;
 }
 
 .slider-flecha:hover {
-    background-color: #111;
+    background-color: #e64545;
+
+    transform: translateY(-50%) scale(1.08);
 }
 
+#slider-prev {
+    left: 5px;
+}
+
+#slider-next {
+    right: 5px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 900px) {
+
+    .producto-card {
+        flex: 0 0 calc((100% - 20px) / 2);
+    }
+
+}
+
+/* Celular */
+@media (max-width: 600px) {
+
+    .slider-wrapper {
+        padding: 10px 40px;
+    }
+
+    .producto-card {
+        flex: 0 0 100%;
+    }
+
+    .producto-icono img {
+        height: 180px;
+    }
+
+    .slider-flecha {
+        width: 38px;
+        height: 38px;
+        font-size: 23px;
+    }
+
+}
 /* ---------- Contacto ---------- */
 .contacto-lista {
     list-style: none;

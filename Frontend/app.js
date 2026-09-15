@@ -365,7 +365,7 @@ document.getElementById("btn-refrescar").addEventListener("click", cargarListado
 supabase.auth.getSession().then(({ data: { session } }) => {
     actualizarVistaSegunSesion(session);
 });
- 
+
 // ============================================================
 // SLIDER de productos (sección "Productos")
 // ============================================================
@@ -378,11 +378,7 @@ function anchoTarjeta() {
 
     if (!tarjeta) return 0;
 
-    const estilo = window.getComputedStyle(tarjeta);
-
-    return tarjeta.offsetWidth +
-           parseInt(estilo.marginRight || 0) +
-           16; // gap
+    return tarjeta.offsetWidth + 20; // 20px = gap
 }
 
 // Botón anterior
@@ -405,9 +401,9 @@ btnNext.addEventListener("click", () => {
 // SLIDER AUTOMÁTICO
 // ============================================================
 
-let sliderAutomatico = setInterval(() => {
+setInterval(() => {
 
-    // Si llegó al final, vuelve al inicio
+    // Si llegó al final, vuelve al comienzo
     if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 5) {
 
         slider.scrollTo({
@@ -417,6 +413,7 @@ let sliderAutomatico = setInterval(() => {
 
     } else {
 
+        // Avanza una tarjeta
         slider.scrollBy({
             left: anchoTarjeta(),
             behavior: "smooth"
@@ -424,38 +421,7 @@ let sliderAutomatico = setInterval(() => {
 
     }
 
-}, 2000); // cambia cada 1 segundos
-
-
-// Pausar cuando el mouse está encima
-slider.addEventListener("mouseenter", () => {
-    clearInterval(sliderAutomatico);
-});
-
-// Continuar cuando el mouse sale
-slider.addEventListener("mouseleave", () => {
-
-    sliderAutomatico = setInterval(() => {
-
-        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 5) {
-
-            slider.scrollTo({
-                left: 0,
-                behavior: "smooth"
-            });
-
-        } else {
-
-            slider.scrollBy({
-                left: anchoTarjeta(),
-                behavior: "smooth"
-            });
-
-        }
-
-    }, 3000);
-
-});
+}, 3000);
  
 })();
 } else {
