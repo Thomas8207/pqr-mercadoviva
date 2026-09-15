@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from database import Base, engine, get_db
 from models import PQR
+from models import PQR, ComentarioPQR
 import schemas
 
 # Crea la tabla "pqr" en Supabase si aún no existe
@@ -108,6 +109,34 @@ def actualizar_estado(
     pqr.estado = datos.estado.value
     pqr.fecha_actualizacion = datetime.now(timezone.utc)
 
+    db.commit()
+    db.refresh(pqr)
+
+    return pqr
+
+# ----------------------------------------------------------------
+# HU6 — El administrador comenta y responde a una PQR
+# ----------------------------------------------------------------
+@app.post("/pqr/{pqr_id}/comentarios", response_model=schemas.PQRResponse, status_code=201)
+def agregar_comentario(
+        pqr_id: str, datos: schemas.ComentarioCreate, db: Session = Depends(get_db)
+):
+    """
+    Agrega un comentario/respuesta del administrador a una PQR existente.
+    El usuario podrá verlo al consultar su PQR (GET /pqr/{pqr_id}).
+    """
+    pqr = db.query(PQR).filter(PQR.id == pqr_id).first()
+
+    if not pqr:
+        raise HTTPException(status_code=404, detail="PQR no encontrada")
+
+    nuevo_comentario = ComentarioPQR(
+        pqr_id=pqr_id,
+        autor=datos.autor,
+        mensaje=datos.mensaje,
+    )
+
+    db.add(nuevo_comentario)
     db.commit()
     db.refresh(pqr)
 
