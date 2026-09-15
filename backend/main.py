@@ -7,7 +7,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 
 from database import Base, engine, get_db
-from models import PQR
 from models import PQR, ComentarioPQR
 import schemas
 

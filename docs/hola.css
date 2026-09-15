@@ -499,3 +499,68 @@ hr {
 #li-usuario a:hover {
     background-color: transparent;
 }
+
+/* ---------- Comentarios del administrador (HU6) ---------- */
+.celda-comentarios {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 220px;
+    max-width: 280px;
+}
+
+.comentarios-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+.comentarios-vacio {
+    color: #888;
+    font-style: italic;
+    font-size: 0.85rem;
+}
+
+.comentario-item {
+    background-color: #fff5f5;
+    border: 1px solid #ffd7d7;
+    border-radius: 6px;
+    padding: 6px 8px;
+    font-size: 0.85rem;
+}
+
+.comentario-item strong {
+    color: #FF5757;
+}
+
+.comentario-item .comentario-fecha {
+    display: block;
+    color: #888;
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+}
+
+.comentario-item p {
+    margin: 0;
+    word-break: break-word;
+}
+
+.celda-comentarios textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 4px;
+}
+
+.celda-comentarios button {
+    align-self: flex-start;
+}
+
+.celda-comentarios .error {
+    color: #c0392b;
+    font-size: 0.8rem;
+}

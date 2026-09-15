@@ -50,19 +50,6 @@ class PQRCreate(BaseModel):
 class PQRUpdateEstado(BaseModel):
     estado: EstadoPQR
 
-class PQRResponse(BaseModel):
-    id: str
-    nombre: str
-    contacto: str
-    tipo: str
-    descripcion: str
-    estado: str
-    fecha_creacion: datetime
-    fecha_actualizacion: datetime
-
-    class Config:
-        from_attributes = True
-
 class ComentarioCreate(BaseModel):
     mensaje: str = Field(..., min_length=2, max_length=1000)
     autor: str = Field(default="Administrador", max_length=100)

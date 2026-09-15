@@ -36,6 +36,14 @@ function limpiarErrores(formId) {
  
 const PATRON_CORREO = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
+// Escapa caracteres HTML para que el contenido de un comentario nunca
+// se interprete como etiquetas (evita romper el layout o inyectar HTML).
+function escaparHTML(texto) {
+    const div = document.createElement("div");
+    div.textContent = texto ?? "";
+    return div.innerHTML;
+}
+
 // Construye el HTML con la lista de comentarios/respuestas del administrador
 // para una PQR. Se usa tanto en la vista cliente (consulta) como en el panel admin.
 function htmlComentarios(comentarios) {
@@ -45,9 +53,9 @@ function htmlComentarios(comentarios) {
 
     const items = comentarios.map(c => `
         <div class="comentario-item">
-            <strong>${c.autor}</strong>
+            <strong>${escaparHTML(c.autor)}</strong>
             <span class="comentario-fecha">${new Date(c.fecha_creacion).toLocaleString()}</span>
-            <p>${c.mensaje}</p>
+            <p>${escaparHTML(c.mensaje)}</p>
         </div>
     `).join("");
 
