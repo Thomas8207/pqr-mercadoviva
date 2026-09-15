@@ -35,6 +35,24 @@ function limpiarErrores(formId) {
 }
  
 const PATRON_CORREO = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+// Construye el HTML con la lista de comentarios/respuestas del administrador
+// para una PQR. Se usa tanto en la vista cliente (consulta) como en el panel admin.
+function htmlComentarios(comentarios) {
+    if (!comentarios || comentarios.length === 0) {
+        return `<div class="comentarios-lista comentarios-vacio">Sin comentarios todavía.</div>`;
+    }
+
+    const items = comentarios.map(c => `
+        <div class="comentario-item">
+            <strong>${c.autor}</strong>
+            <span class="comentario-fecha">${new Date(c.fecha_creacion).toLocaleString()}</span>
+            <p>${c.mensaje}</p>
+        </div>
+    `).join("");
+
+    return `<div class="comentarios-lista">${items}</div>`;
+}
  
 // ---------- Navegación / apertura de modales ----------
 document.getElementById("nav-login").addEventListener("click", (e) => {
@@ -243,6 +261,7 @@ document.getElementById("form-consulta").addEventListener("submit", async (e) =>
             <strong>Descripción:</strong> ${datos.descripcion}<br>
             <strong>Estado:</strong> ${datos.estado}<br>
             <strong>Fecha de registro:</strong> ${new Date(datos.fecha_creacion).toLocaleString()}
+            ${htmlComentarios(datos.comentarios)}
         `;
  
     } catch (err) {
@@ -316,8 +335,75 @@ function filaPQR(pqr) {
     celdaAccion.appendChild(selectEstado);
     celdaAccion.appendChild(botonActualizar);
     fila.appendChild(celdaAccion);
+
+    // ---------- Celda de comentarios (HU6) ----------
+    const celdaComentarios = document.createElement("td");
+    celdaComentarios.className = "celda-comentarios";
+
+    const listaComentarios = document.createElement("div");
+    listaComentarios.innerHTML = htmlComentarios(pqr.comentarios);
+    celdaComentarios.appendChild(listaComentarios);
+
+    const inputComentario = document.createElement("textarea");
+    inputComentario.rows = 2;
+    inputComentario.placeholder = "Escribe una respuesta para el cliente...";
+    celdaComentarios.appendChild(inputComentario);
+
+    const errorComentario = document.createElement("span");
+    errorComentario.className = "error";
+    celdaComentarios.appendChild(errorComentario);
+
+    const botonComentar = document.createElement("button");
+    botonComentar.textContent = "Comentar";
+    botonComentar.addEventListener("click", () => {
+        agregarComentarioPQR(pqr.id, inputComentario.value, listaComentarios, inputComentario, errorComentario);
+    });
+    celdaComentarios.appendChild(botonComentar);
+
+    fila.appendChild(celdaComentarios);
  
     return fila;
+}
+
+// ============================================================
+// ADMIN — HU6: comentar / responder una PQR
+// ============================================================
+async function agregarComentarioPQR(id, mensaje, listaComentarios, inputComentario, errorComentario) {
+    errorComentario.textContent = "";
+    const texto = mensaje.trim();
+
+    if (!texto) {
+        errorComentario.textContent = "Escribe un comentario antes de enviarlo.";
+        return;
+    }
+
+    const autor = (navUsuario.textContent || "").trim() || "Administrador";
+
+    try {
+        const respuesta = await fetch(`${API_BASE}/pqr/${encodeURIComponent(id)}/comentarios`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ mensaje: texto, autor })
+        });
+
+        const datos = await respuesta.json();
+
+        if (respuesta.status === 404) {
+            errorComentario.textContent = `La PQR ${id} ya no existe.`;
+            return;
+        }
+
+        if (!respuesta.ok) {
+            errorComentario.textContent = datos.detail || "No se pudo guardar el comentario.";
+            return;
+        }
+
+        listaComentarios.innerHTML = htmlComentarios(datos.comentarios);
+        inputComentario.value = "";
+
+    } catch (err) {
+        errorComentario.textContent = "No se pudo conectar con el servidor. Intenta más tarde.";
+    }
 }
  
 // ============================================================
