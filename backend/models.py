@@ -22,6 +22,7 @@ class PQR(Base):
         cascade="all, delete-orphan",
     )
 
+
 class ComentarioPQR(Base):
     __tablename__ = "comentarios_pqr"
 
