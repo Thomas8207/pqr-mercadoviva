@@ -372,20 +372,89 @@ supabase.auth.getSession().then(({ data: { session } }) => {
 const slider = document.getElementById("slider-productos");
 const btnPrev = document.getElementById("slider-prev");
 const btnNext = document.getElementById("slider-next");
- 
+
 function anchoTarjeta() {
     const tarjeta = slider.querySelector(".producto-card");
+
     if (!tarjeta) return 0;
+
     const estilo = window.getComputedStyle(tarjeta);
-    return tarjeta.offsetWidth + parseInt(estilo.marginRight || 0) + 16; // 16px = gap
+
+    return tarjeta.offsetWidth +
+           parseInt(estilo.marginRight || 0) +
+           16; // gap
 }
- 
+
+// Botón anterior
 btnPrev.addEventListener("click", () => {
-    slider.scrollBy({ left: -anchoTarjeta(), behavior: "smooth" });
+    slider.scrollBy({
+        left: -anchoTarjeta(),
+        behavior: "smooth"
+    });
 });
- 
+
+// Botón siguiente
 btnNext.addEventListener("click", () => {
-    slider.scrollBy({ left: anchoTarjeta(), behavior: "smooth" });
+    slider.scrollBy({
+        left: anchoTarjeta(),
+        behavior: "smooth"
+    });
+});
+
+// ============================================================
+// SLIDER AUTOMÁTICO
+// ============================================================
+
+let sliderAutomatico = setInterval(() => {
+
+    // Si llegó al final, vuelve al inicio
+    if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 5) {
+
+        slider.scrollTo({
+            left: 0,
+            behavior: "smooth"
+        });
+
+    } else {
+
+        slider.scrollBy({
+            left: anchoTarjeta(),
+            behavior: "smooth"
+        });
+
+    }
+
+}, 2000); // cambia cada 1 segundos
+
+
+// Pausar cuando el mouse está encima
+slider.addEventListener("mouseenter", () => {
+    clearInterval(sliderAutomatico);
+});
+
+// Continuar cuando el mouse sale
+slider.addEventListener("mouseleave", () => {
+
+    sliderAutomatico = setInterval(() => {
+
+        if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth - 5) {
+
+            slider.scrollTo({
+                left: 0,
+                behavior: "smooth"
+            });
+
+        } else {
+
+            slider.scrollBy({
+                left: anchoTarjeta(),
+                behavior: "smooth"
+            });
+
+        }
+
+    }, 3000);
+
 });
  
 })();

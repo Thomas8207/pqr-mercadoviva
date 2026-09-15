@@ -4,6 +4,18 @@ MVP que permite a los clientes de **Mercado VIVA** registrar una **Petición, Qu
 
 Proyecto desarrollado como taller de implementación de un MVP (frontend + backend + base de datos).
 
+## 🚀 Proyecto desplegado
+
+| Componente | Servicio | URL |
+|---|---|---|
+| Frontend | GitHub Pages | https://thomas8207.github.io/pqr-mercadoviva/ |
+| Backend / API | Render (plan Free) | https://pqr-mercadoviva.onrender.com |
+| Base de datos + Auth | Supabase | (privado) |
+
+> ⚠️ El backend está en el plan gratuito de Render: si nadie lo usa por 15 minutos, se "duerme". La primera petición después de eso puede tardar 30-60 segundos en responder mientras despierta — es normal, no es un error.
+
+No necesitas instalar nada para probar el proyecto: solo entra a la URL del frontend de arriba. Las secciones de instalación de abajo son solo para correrlo en local durante desarrollo.
+
 ## Problema que resuelve
 
 Mercado VIVA no contaba con un sistema unificado para registrar, consultar y hacer seguimiento a las PQR de sus clientes, lo que generaba pérdida de información, respuestas tardías y dificultad para saber quién debía atender cada solicitud.
@@ -32,8 +44,8 @@ Frontend (HTML/CSS/JS)  →  API REST (FastAPI)  →  PostgreSQL (Supabase)
         └── Autenticación de sesión (cliente/admin) vía Supabase Auth
 ```
 
-- **Frontend/** — sitio estático (`index.html`, `app.js`, `hola.css`, `config.js`) que consume la API y usa Supabase Auth para diferenciar la vista de cliente y de administrador.
-- **backend/** — API en **FastAPI** con **SQLAlchemy**, que expone los endpoints de PQR y persiste los datos en PostgreSQL (Supabase).
+- **docs/** — sitio estático (`index.html`, `app.js`, `hola.css`, `config.js`) que consume la API y usa Supabase Auth para diferenciar la vista de cliente y de administrador. Se llama `docs/` (y no `frontend/`) porque así lo exige GitHub Pages para publicarlo directo desde la rama `main`.
+- **backend/** — API en **FastAPI** con **SQLAlchemy**, que expone los endpoints de PQR y persiste los datos en PostgreSQL (Supabase). Desplegada en Render.
 
 ## Historias de usuario implementadas
 
@@ -93,17 +105,39 @@ Actualiza el estado de una PQR. Body:
 | `fecha_creacion` | datetime | Fecha/hora de registro |
 | `fecha_actualizacion` | datetime | Fecha/hora del último cambio de estado |
 
-## Requisitos
+## Despliegue en producción
+
+### Backend en Render
+
+- Servicio tipo **Web Service**, plan **Free**.
+- **Root Directory:** `backend`
+- **Build Command:** `pip install -r requirements.txt`
+- **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
+- Variable de entorno `DATABASE_URL` con la cadena de conexión a Postgres (Supabase).
+
+### Frontend en GitHub Pages
+
+- Settings → Pages → Source: **Deploy from a branch** → Branch: `main` → carpeta: **/docs**.
+- El archivo `docs/.nojekyll` está presente a propósito: le dice a GitHub que sirva los archivos tal cual, sin pasarlos por Jekyll (el generador de sitios que usa por defecto, pensado para blogs, no para HTML/CSS/JS plano).
+- En `docs/config.js`, `API_BASE` debe apuntar a la URL de Render de arriba.
+
+### Supabase — URL Configuration
+
+Para que los enlaces de confirmación de correo funcionen (en vez de redirigir a `localhost`), en Authentication → URL Configuration:
+- **Site URL:** `https://thomas8207.github.io/pqr-mercadoviva/`
+- **Redirect URLs:** `https://thomas8207.github.io/pqr-mercadoviva/**`
+
+## Requisitos (solo para correr en local)
 
 - Python 3.10+
 - Cuenta de [Supabase](https://supabase.com) (Postgres + Auth)
 - Node no es necesario para el frontend (es HTML/CSS/JS estático)
 
-## Configuración
+## Configuración local
 
 ### 1. Backend
 
-Crea `backend/.env` con:
+Crea `backend/.env` (este archivo NO se sube a git — está en `.gitignore`) con:
 ```env
 DATABASE_URL=postgresql://usuario:password@host:puerto/db
 NEXT_PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
@@ -114,22 +148,23 @@ Instala dependencias y corre el servidor:
 ```bash
 cd backend
 pip install -r requirements.txt
-uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```
 La tabla `pqr` se crea automáticamente al iniciar (`Base.metadata.create_all`).
 
 ### 2. Frontend
 
-Edita `Frontend/config.js` con la URL y llave de tu proyecto de Supabase y la URL de tu API:
+Edita `docs/config.js` con la URL y llave de tu proyecto de Supabase y la URL de tu API local:
 ```js
 const SUPABASE_URL = "https://tu-proyecto.supabase.co";
 const SUPABASE_ANON_KEY = "tu-anon-key";
 const API_BASE = "http://localhost:8000";
 ```
+⚠️ Recuerda volver a poner la URL de Render antes de subir el commit — si dejas `localhost`, el sitio publicado en producción deja de funcionar.
 
 Sirve la carpeta como sitio estático:
 ```bash
-cd Frontend
+cd docs
 python -m http.server 5500
 ```
 Abre `http://localhost:5500`.
@@ -171,11 +206,13 @@ La cuenta debe cerrar sesión y volver a iniciar sesión para que el cambio se r
 │   ├── schemas.py       # Validaciones Pydantic (HU5)
 │   ├── database.py      # Conexión a PostgreSQL/Supabase
 │   └── requirements.txt
-├── Frontend/
+├── docs/                 # frontend — nombre exigido por GitHub Pages
 │   ├── index.html
-│   ├── app.js           # Lógica de autenticación y consumo de la API
-│   ├── config.js        # Credenciales de Supabase y URL de la API
-│   └── hola.css
+│   ├── app.js            # Lógica de autenticación y consumo de la API
+│   ├── config.js         # Credenciales de Supabase y URL de la API
+│   ├── hola.css
+│   ├── img/
+│   └── .nojekyll         # desactiva el procesamiento Jekyll en GitHub Pages
 └── README.md
 ```
 
@@ -184,3 +221,4 @@ La cuenta debe cerrar sesión y volver a iniciar sesión para que el cambio se r
 - Chocolatico14 (Andres Felipe Zora)
 - Thomas8207
 - CODEX1235 (Nicolas Peña)
+- danyalexism (Dany Alexis Moreno)
