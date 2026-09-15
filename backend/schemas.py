@@ -62,3 +62,39 @@ class PQRResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class ComentarioCreate(BaseModel):
+    mensaje: str = Field(..., min_length=2, max_length=1000)
+    autor: str = Field(default="Administrador", max_length=100)
+
+    @field_validator("mensaje")
+    @classmethod
+    def mensaje_no_vacio(cls, v):
+        if not v.strip():
+            raise ValueError("El mensaje no puede estar vacío")
+        return v.strip()
+
+
+class ComentarioResponse(BaseModel):
+    id: int
+    autor: str
+    mensaje: str
+    fecha_creacion: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class PQRResponse(BaseModel):
+    id: str
+    nombre: str
+    contacto: str
+    tipo: str
+    descripcion: str
+    estado: str
+    fecha_creacion: datetime
+    fecha_actualizacion: datetime
+    comentarios: list[ComentarioResponse] = []
+
+    class Config:
+        from_attributes = True
